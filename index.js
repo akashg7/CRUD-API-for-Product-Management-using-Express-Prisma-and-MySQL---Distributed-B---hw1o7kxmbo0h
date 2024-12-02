@@ -1,11 +1,12 @@
 const express = require('express');
 const productRoutes = require('./routes/productRoutes');
+const authMiddleware = require('./middleware/authmiddleware')
 
 const app = express();
 app.use(express.json());
 
 // Product routes 
-app.use('/api/products', productRoutes);
+app.use('/api/products', authMiddleware, productRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 3000;
