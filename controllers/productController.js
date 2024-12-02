@@ -1,12 +1,13 @@
-const {prisma} = require('../db/config')
-
-const createProduct = async (req , res)=>{
-    const {name , stock , price} = req.body
-    if(!name || !stock ||!price){
-        return res.status(400).json({"error": "All fields required"})
+const {prisma} = require("../db/config")
+const createProduct = async(req, res)=>{
+    const {name, stock, price} = req.body; 
+    if(!name || !stock || !price){
+        return res.status(400).json({
+            "error": "All fields required"
+          })
     }
-    const create = await prisma.product.create({data : {name , stock , price}})
-    return res.status(201).json({create})
+    const create = await prisma.product.create({data: {name, stock, price}})
+    res.status(201).json(create)
 }
 
 const getProducts= async(req, res)=>{
