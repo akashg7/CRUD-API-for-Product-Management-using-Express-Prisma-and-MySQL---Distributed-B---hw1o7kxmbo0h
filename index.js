@@ -8,11 +8,25 @@ app.use(express.json());
 // Product routes 
 app.use('/api/products', authMiddleware, productRoutes);
 
-// Start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+// Handle 404 errors
+app.use((req, res) => {
+  res.status(404).json({ error: 'Route not found' });
 });
 
+// General error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({ error: 'Internal Server Error' });
+});
 
-module.exports=app;
+const PORT = process.env.PORT || 3000;
+
+// Export the app instance
+module.exports = app;
+
+// Start the server in a separate file (optional)
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
